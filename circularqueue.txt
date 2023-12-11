@@ -1,0 +1,89 @@
+#include <iostream>
+using namespace std;
+
+class CircularQueue {
+private:
+    int size;
+    int* queue;
+    int front;
+    int rear;
+
+public:
+    CircularQueue(int s) {
+        size = s;
+        queue = new int[size];
+        front = rear = -1;
+    }
+
+    ~CircularQueue() {
+        delete[] queue;
+    }
+
+    bool isEmpty() {
+        return front == -1;
+    }
+
+    bool isFull() {
+        return (rear + 1) % size == front;
+    }
+
+    void enqueue(int item) {
+        if (isFull()) {
+            cout << "Queue is full. Cannot enqueue." << endl;
+        } else {
+            if (isEmpty()) {
+                front = rear = 0;
+            } else {
+                rear = (rear + 1) % size;
+            }
+            queue[rear] = item;
+            cout << "Enqueued: " << item << endl;
+        }
+    }
+
+    void dequeue() {
+        if (isEmpty()) {
+            cout << "Queue is empty. Cannot dequeue." << endl;
+        } else {
+            int removedItem = queue[front];
+            if (front == rear) {
+                front = rear = -1;
+            } else {
+                front = (front + 1) % size;
+            }
+            cout << "Dequeued: " << removedItem << endl;
+        }
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+        } else {
+            int current = front;
+            do {
+                cout << queue[current] << " ";
+                current = (current + 1) % size;
+            } while (current != (rear + 1) % size);
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    CircularQueue cq(5);
+
+    cq.enqueue(1);
+    cq.enqueue(2);
+    cq.enqueue(3);
+    cq.display();
+
+    cq.dequeue();
+    cq.display();
+
+    cq.enqueue(4);
+    cq.enqueue(5);
+    cq.enqueue(6); // This will print an error since the queue is full
+    cq.display();
+
+    return 0;
+}

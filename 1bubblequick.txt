@@ -1,0 +1,167 @@
+
+Consider a student database of SEIT class (at least 15 records). Database contains
+different fields of every student like Roll No, Name and SGPA.(array of structure)
+
+a) Design a roll call list, arrange the list of students according to roll numbers in ascending order using Bubble Sort:
+
+
+#include <iostream>
+#include <string>
+
+struct Student {
+    int rollNo;
+    std::string name;
+    float sgpa;
+};
+
+void bubbleSort(Student arr[], int n) {
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (arr[j].rollNo > arr[j + 1].rollNo) {
+                // Swap the students if they are in the wrong order
+                std::swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
+}
+
+int main() {
+    const int numStudents = 15;
+
+    // Create an array of students
+    Student students[numStudents] = {
+        {101, "John", 3.8},
+        {102, "Alice", 3.5},
+        // Add more student records...
+    };
+
+    // Call the bubbleSort function to arrange the students in ascending order of roll numbers
+    bubbleSort(students, numStudents);
+
+    // Display the sorted list
+    std::cout << "Roll Call List (Sorted by Roll Number):\n";
+    for (int i = 0; i < numStudents; ++i) {
+        std::cout << "Roll No: " << students[i].rollNo << ", Name: " << students[i].name << ", SGPA: " << students[i].sgpa << "\n";
+    }
+
+    return 0;
+}
+
+
+
+
+b) Arrange the list of students to find out the first ten toppers from a class using Quick Sort:
+
+
+
+#include <iostream>
+#include <string>
+
+struct Student {
+    int rollNo;
+    std::string name;
+    float sgpa;
+};
+
+int partition(Student arr[], int low, int high) {
+    float pivot = arr[high].sgpa;
+    int i = (low - 1);
+
+    for (int j = low; j <= high - 1; ++j) {
+        if (arr[j].sgpa >= pivot) {
+            ++i;
+            // Swap the students if they are in the wrong order
+            std::swap(arr[i], arr[j]);
+        }
+    }
+
+    // Swap the pivot element with the element at (i + 1)
+    std::swap(arr[i + 1], arr[high]);
+
+    return (i + 1);
+}
+
+void quickSort(Student arr[], int low, int high) {
+    if (low < high) {
+        // Find the partition index
+        int pi = partition(arr, low, high);
+
+        // Recursively sort the sub-arrays
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+int main() {
+    const int numStudents = 15;
+
+    // Create an array of students
+    Student students[numStudents] = {
+        {101, "John", 3.8},
+        {102, "Alice", 3.5},
+        // Add more student records...
+    };
+
+    // Call the quickSort function to arrange the students in descending order of SGPA
+    quickSort(students, 0, numStudents - 1);
+
+    // Display the top ten toppers
+    std::cout << "Top Ten Toppers:\n";
+    for (int i = 0; i < std::min(10, numStudents); ++i) {
+        std::cout << "Roll No: " << students[i].rollNo << ", Name: " << students[i].name << ", SGPA: " << students[i].sgpa << "\n";
+    }
+
+    return 0;
+}
+
+Consider a student database of SEIT class (at least 15 records). Database contains
+different fields of every student like Roll No, Name and SGPA.(array of structure)
+a) Search students according to SGPA. If more than one student having same
+SGPA, then print list of all students having same SGPA.
+
+
+
+#include <iostream>
+#include <string>
+
+struct Student {
+    int rollNo;
+    std::string name;
+    float sgpa;
+};
+
+void searchBySGPA(const Student arr[], int n, float targetSGPA) {
+    bool found = false;
+
+    std::cout << "Students with SGPA " << targetSGPA << ":\n";
+    for (int i = 0; i < n; ++i) {
+        if (arr[i].sgpa == targetSGPA) {
+            std::cout << "Roll No: " << arr[i].rollNo << ", Name: " << arr[i].name << "\n";
+            found = true;
+        }
+    }
+
+    if (!found) {
+        std::cout << "No students found with SGPA " << targetSGPA << "\n";
+    }
+}
+
+int main() {
+    const int numStudents = 15;
+
+    // Create an array of students
+    Student students[numStudents] = {
+        {101, "John", 3.8},
+        {102, "Alice", 3.5},
+        {103, "Bob", 3.8},
+        // Add more student records...
+    };
+
+    // Assume the target SGPA to search for
+    float targetSGPA = 3.8;
+
+    // Call the searchBySGPA function
+    searchBySGPA(students, numStudents, targetSGPA);
+
+    return 0;
+}
